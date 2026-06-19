@@ -77,7 +77,6 @@ def turnoInimigo(perso,todos):
             acao = 0 
 
             for iAl,al in enumerate(alvos):#descobrir que combinação de habilidade e alvo deixa um inimigo com menor vida
-                #não esta colocando as resistencia no calculo, consertar
                 for iAc,ac in enumerate(perso.habilidades):
                     if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) <= alvos[alvo].vida - (perso.habilidades[acao]['valor'] - alvos[alvo].calcularRes(perso.habilidades[acao]['tipoDano'])):
                         if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) == alvos[alvo].vida - (perso.habilidades[acao]['valor'] - alvos[alvo].calcularRes(perso.habilidades[acao]['tipoDano'])):
@@ -140,7 +139,7 @@ def turnoJogador(perso, todos):
                         print()
 
             dano = perso.calcularDano()
-            danificar(perso,"ataque", alvos[alvo -1], dano, perso.arma.tipo, False)
+            danificar(perso,"ataque", alvos[alvo -1], dano, perso.arma.tipoDano, False)
         case 2:
             print("pulando .. nao implementado")
         case 3: 

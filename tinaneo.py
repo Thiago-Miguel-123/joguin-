@@ -73,13 +73,14 @@ while True:
                                     "3- manejar inventario\n"
                                     "4- levar dano\n"
                                     "5- simular luta\n"
-                                    "6- sair\n>"
+                                    "6- adicionar aliado\n"
+                                    "7- sair\n>"
                                     ))
             except ValueError:
                 print('Isso não é uma opção')
                 print()
             else:
-                if 1 <= opcao <= 6:
+                if 1 <= opcao <= 7:
                     break
                 else:
                     print('Isso não é uma opção')
@@ -149,6 +150,9 @@ while True:
                 luta.batalha(personagem,[],inimigos)
             
             case 6:
+                pass #adicionar aliado 
+
+            case 7:
                 print("tchau tchau")
                 break
         

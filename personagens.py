@@ -7,6 +7,7 @@ from itens import itemUsavel
 from itens import itemArma
 from itens import itemArmadura
 from listaPersonagens import listaInimigos
+from listaPersonagens import listaAliados
 
 class personagemBase:
     nome = str
@@ -57,7 +58,8 @@ class Heroi(personagemBase):
         self.adiquirirItem(1,0)
         self.adiquirirItem(2,0)
         self.arma = self.inventario[0]
-        self.armadura = self.inventario[1]        
+        self.armadura = self.inventario[1]   
+        self.party = []     
         
 
         match presente:
@@ -354,8 +356,37 @@ class Heroi(personagemBase):
                                         break
 
 class aliado(personagemBase):
-    a= 1
+    def __init__(self,id:int,heroi):
+        #adicionar ia dps se eu quiser
+        for i, ali in enumerate(listaAliados):
+            if ali["id"] == id:
+                self.nome = ali["nome"] 
+                self.vida = self.vidaMax = ali["vida"]
+                self.resis = ali["resis"]
+                self.forca = ali["forca"]
+                self.agili = ali["agili"]
+                self.sabed = ali["sabed"]
+                self.habilidades = []
+                for hab in ali['habilidades']:
+                    self.habilidades.append(listaHabilidades[hab])
+                self.armasEquipaveis = ali["armasEquipaveis"]
+                self.armadurasEquipaveis = ali["armadurasEquipaveis"]
 
+                if ali['armaBase']:
+                    self.arma = listaArmas[ali['armaBase']]
+                    heroi.adiquirirItem(1,ali["armaBase"])
+                else:
+                    self.arma = None
+
+                if ali['armaduraBase']:
+                    self.armadura = listaArmas[ali['armaduraBase']]
+                    heroi.adiquirirItem(2,ali["armaduraBase"])
+                else:
+                    self.armadura = None
+
+                #funçao que adiciona aliado a party
+
+                self.vivo = True
 class inimigo(personagemBase):
 
     def __init__(self,id:int):
