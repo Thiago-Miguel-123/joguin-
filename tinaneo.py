@@ -150,7 +150,11 @@ while True:
                 luta.batalha(personagem,[],inimigos)
             
             case 6:
-                pass #adicionar aliado 
+                novoParty = int(input("coloque o id do aliado:\n>"))
+
+                personagem.adicionarParty(novoParty)
+
+                print(personagem.party)
 
             case 7:
                 print("tchau tchau")

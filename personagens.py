@@ -122,6 +122,15 @@ class Heroi(personagemBase):
             return self.forca + self.arma.dano
         else:
             return self.forca
+
+    def adicionarParty(self,ali):
+        
+        membro = aliado(ali)
+
+        self.party.append(membro)
+
+        print(f'{membro.nome} se juntou a você')
+
 #inventario
 
     def adiquirirItem(self, cat, id):
@@ -140,7 +149,7 @@ class Heroi(personagemBase):
             case 1:
                 for novaArma in listaArmas:
                     if id == novaArma["id"]:
-                        addArma = itemArma(novaArma["nome"],novaArma["desc"],novaArma["cat"],novaArma["dano"],novaArma["hit"],novaArma["tipo"])
+                        addArma = itemArma(novaArma["nome"],novaArma["desc"],novaArma["cat"],novaArma["dano"],novaArma["hit"],novaArma["tipoDano"],novaArma["tipoArma"])
                         self.inventario.append(addArma)
                         return
                 print("nenhum item valido com essa combinação de categoria e id")
@@ -151,7 +160,7 @@ class Heroi(personagemBase):
             case 2:
                 for novaArmadura in listaArmaduras:
                     if id == novaArmadura["id"]:
-                        addArmadura = itemArmadura(novaArmadura["nome"],novaArmadura["desc"],novaArmadura["cat"], novaArmadura["res"])
+                        addArmadura = itemArmadura(novaArmadura["nome"],novaArmadura["desc"],novaArmadura["cat"], novaArmadura["res"],novaArmadura["tipo"])
                         self.inventario.append(addArmadura)
                         return
                 print("nenhum item valido com essa combinação de categoria e id")
@@ -356,7 +365,7 @@ class Heroi(personagemBase):
                                         break
 
 class aliado(personagemBase):
-    def __init__(self,id:int,heroi):
+    def __init__(self,id:int):
         #adicionar ia dps se eu quiser
         for i, ali in enumerate(listaAliados):
             if ali["id"] == id:
