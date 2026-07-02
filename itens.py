@@ -292,15 +292,17 @@ class itemUsavel(Item):
 
 class itemArma(Item):
 
-    def __init__(self, nome, desc, cat,dano:int,hit:int,tipo:int):
+    def __init__(self, nome, desc, cat,dano:int,hit:int,tipoDano:int,tipoArma:int):
         super().__init__(nome, desc, cat)
         self.dano = dano
         self.hit = hit
-        self.tipo = tipo
+        self.tipoDano = tipoDano
+        self.tipoArma = tipoArma
 
 class itemArmadura(Item):
 
-    def __init__(self, nome, desc, cat,res:list):
+    def __init__(self, nome, desc, cat,res:list,tipo:int):
         super().__init__(nome, desc, cat)
         self.res = res
+        self.tipo = tipo
 

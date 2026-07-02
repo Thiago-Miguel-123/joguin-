@@ -125,11 +125,13 @@ class Heroi(personagemBase):
 
     def adicionarParty(self,ali):
         
-        membro = aliado(ali)
+        membro = aliado(ali,self)
 
-        self.party.append(membro)
+        if isinstance(membro,aliado):
+            
+            self.party.append(membro)
 
-        print(f'{membro.nome} se juntou a você')
+            print(f'{membro.nome} se juntou a você')
 
 #inventario
 
@@ -365,7 +367,7 @@ class Heroi(personagemBase):
                                         break
 
 class aliado(personagemBase):
-    def __init__(self,id:int):
+    def __init__(self,id:int,heroi):
         #adicionar ia dps se eu quiser
         for i, ali in enumerate(listaAliados):
             if ali["id"] == id:
@@ -392,8 +394,6 @@ class aliado(personagemBase):
                     heroi.adiquirirItem(2,ali["armaduraBase"])
                 else:
                     self.armadura = None
-
-                #funçao que adiciona aliado a party
 
                 self.vivo = True
 class inimigo(personagemBase):
