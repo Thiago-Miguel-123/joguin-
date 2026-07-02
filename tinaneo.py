@@ -87,7 +87,7 @@ while True:
                     print()
         match opcao:
             case 1:
-                personagem.mostrarPersonagem
+                personagem.mostrarPersonagem()
                 print()
             case 2:
                 while True:

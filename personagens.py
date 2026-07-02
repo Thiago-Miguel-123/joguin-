@@ -94,6 +94,9 @@ class Heroi(personagemBase):
               f'habilidades:')
         for habilidade in self.habilidades:
             print(f'>{habilidade}')
+        print("party:")
+        for membro in self.party:
+            print(f'>{membro.nome}')
         print('inventario:')
         for item in self.inventario:
             print(f'>{item.nome}')
