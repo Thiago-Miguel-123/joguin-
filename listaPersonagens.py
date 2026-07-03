@@ -43,7 +43,7 @@ listaAliados = [
         "agili": 2,
         "sabed": 2,
         "habilidades": [], #id das habilidades
-        "armasEquipaveis": None, #tipos de arma equipaveis
+        "armasEquipaveis": [None], #tipos de arma equipaveis
         "armadurasEquipaveis": [0],
         "armaBase": None,
         "armaduraBase": None
