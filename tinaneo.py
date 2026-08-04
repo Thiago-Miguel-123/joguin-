@@ -148,7 +148,7 @@ while True:
                     inimigos.append(newIni)
                     numero -= 1
 
-                luta.batalha(personagem,[],inimigos)
+                luta.batalha(personagem,personagem.party,inimigos)
             
             case 6:
                 novoParty = int(input("coloque o id do aliado:\n>"))

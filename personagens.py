@@ -38,6 +38,12 @@ class personagemBase:
             print(f"{self.nome} curou {quantReal} pontos de vida")
         else:
             print(f'{self.nome} curou {quant} pontos de vida')
+    
+    def calcularDano(self):
+        if self.arma:
+            return self.forca + self.arma.dano
+        else:
+            return self.forca      
 
 
 
@@ -80,6 +86,8 @@ class Heroi(personagemBase):
                 self.habilidades.append(listaHabilidades[1])
 
         self.vida = self.vidaMax
+
+  
 
 #teste
 
@@ -143,11 +151,7 @@ class Heroi(personagemBase):
     
 #combate
 
-    def calcularDano(self):
-        if self.arma:
-            return self.forca + self.arma.dano
-        else:
-            return self.forca
+
 
     def adicionarParty(self,ali):
         
@@ -504,14 +508,28 @@ class aliado(personagemBase):
                 if ali['armaBase']:
                     self.arma = heroi.adiquirirItem(1,ali["armaBase"])
                 else:
-                    self.arma = None
+                    self.arma = itemArma("","",1,0,100,0,None)
 
                 if ali['armaduraBase']:
                     self.armadura = heroi.adiquirirItem(2,ali["armaduraBase"])
                 else:
                     self.armadura = None
 
+
+                self.heroi = heroi
                 self.vivo = True
+
+    def levarDanoRes(self, quant,tipo):
+        self.levarDano(quant - self.calcularRes(tipo))
+        if not self.vivo:
+            print(f'{self.nome} foi morto')
+
+    def calcularRes(self, tipo):
+        if tipo == 8:
+            return 0
+        return self.resis[tipo]
+    
+    
 class inimigo(personagemBase):
 
     def __init__(self,id:int):

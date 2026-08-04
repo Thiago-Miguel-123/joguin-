@@ -113,7 +113,18 @@ listaItens = [
 # 3 - cajado 
 # 4 - distancia
 #especial
+#n = nenhuma
 listaArmas = [
+    {
+        'id': -1,
+        'cat': 1,
+        'nome': "",
+        'dano': 0,
+        'hit': 100,
+        'tipoDano': 0,
+        'tipoArma': 0,
+        'desc': ""
+    },
     {
         'id': 0,
         'cat': 1,
