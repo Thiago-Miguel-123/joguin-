@@ -201,5 +201,91 @@ def aplicarCond():
 
 def acaoEspecial():
     pass
+
+def inventario(perso, todos):
+    inventarioValido = [i for i in todos[0].inventario if i.cat == 0 and hasattr(i,"alvo")]
+
+    for i,item in enumerate(inventarioValido):
+        if i + 1 == len(inventarioValido):
+            print(f'{i + 1}-{item.nome}')
+        elif (i + 1) % 3 == 0:
+            print(f'{i + 1}-{item.nome}')
+        else:
+            print(f'{i + 1}-{item.nome}', end=" | ")
+
+    print("0 - cancelar")
+
+    while True:
+        try:
+            itemPos = int(input("escolha um item: "))
+
+        except ValueError:
+            print('Isso não é uma opção')
+            print()
+        else:
+            if 0 <= itemPos <= inventarioValido.__len__():
+                break
+            else:
+                print('Isso não é uma opção')
+                print()
+
+
+    if itemPos == 0:
+        pass
+        #voltar as outras opçoes de combate
+    else:
+        itemPos -= 1
+        item = inventarioValido[itemPos]
+
+        match item.alvo:
+            case 1:
+                print("em quem")
+                alvos = [a for a in todos if isAliado(a) and a != perso]
+                print(f'1- {perso.nome}')
+
+                for i, a in alvos:
+                    print(f'{i + 2} - {a.nome}')
+                dif = 2
+            case 2:
+                print("em quem")
+                alvos = [a for a in todos if isInimigo(a)]
+                for i, a in alvos:
+                    print(f'{i + 1} - {a.nome}')
+                dif = 1
+
+            print("0 - cancelar")
+        while True:
+            try:
+                alvo = int(input(">"))
+
+            except ValueError:
+                print('Isso não é uma opção')
+                print()
+            else:
+                if dif == 2:
+                    if 0 <= alvo <= alvos.__len__() + 1:
+                        break
+                    else:
+                        print('Isso não é uma opção')
+                        print()
+                else:
+                    if 0 <= alvo <= alvos.__len__():
+                        break
+                    else:
+                        print('Isso não é uma opção')
+                        print()
+        if alvo == 0:
+            pass
+        elif alvo == 1 and dif == 2:
+             alvo = perso
+            item.usarItem(alvo)
+            todos[0].invetario[item].pop
+        else:
+            alvo = alvos[alvo - dif]
+            item.usarItem(alvo)
+            todos[0].invetario[item].pop
+
+
+
             
 
