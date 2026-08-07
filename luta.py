@@ -253,7 +253,7 @@ def inventario(perso, todos):
                     print(f'{i + 1} - {a.nome}')
                 dif = 1
 
-            print("0 - cancelar")
+        print("0 - cancelar")
         while True:
             try:
                 alvo = int(input(">"))
@@ -277,7 +277,7 @@ def inventario(perso, todos):
         if alvo == 0:
             pass
         elif alvo == 1 and dif == 2:
-             alvo = perso
+            alvo = perso
             item.usarItem(alvo)
             todos[0].invetario[item].pop
         else:
