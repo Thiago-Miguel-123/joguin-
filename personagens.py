@@ -1,4 +1,5 @@
 from habilidades import listaHabilidades
+from habilidades import ListaHabMonstros
 from itens import listaItens
 from itens import listaArmas
 from itens import listaArmaduras
@@ -6,12 +7,13 @@ from itens import itemUsavel
 from itens import itemArma
 from itens import itemArmadura
 from listaPersonagens import listaInimigos
+from listaPersonagens import listaAliados
 
 class personagemBase:
     nome = str
     vidaMax = int
     vida = int
-    resis = int
+    resis = list
     forca = int
     agili = int
     sabed = int
@@ -36,6 +38,12 @@ class personagemBase:
             print(f"{self.nome} curou {quantReal} pontos de vida")
         else:
             print(f'{self.nome} curou {quant} pontos de vida')
+    
+    def calcularDano(self):
+        if self.arma:
+            return self.forca + self.arma.dano
+        else:
+            return self.forca      
 
 
 
@@ -44,7 +52,7 @@ class Heroi(personagemBase):
 
     def __init__(self,nome, presente, habilidade):
         self.nome = nome
-        self.vidaMax = 100
+        self.vidaMax = 10000
         self.forca = 3
         self.resis = 3
         self.agili = 3
@@ -53,10 +61,9 @@ class Heroi(personagemBase):
         self.habilidades = []
         self.resis = [0,0,0,0,0,0,0,0]
         self.inventario = []
-        self.adiquirirItem(1,0)
-        self.adiquirirItem(2,0)
-        self.arma = self.inventario[0]
-        self.armadura = self.inventario[1]        
+        self.arma = self.adiquirirItem(1,0)
+        self.armadura = self.adiquirirItem(2,0)   
+        self.party = []     
         
 
         match presente:
@@ -80,20 +87,50 @@ class Heroi(personagemBase):
 
         self.vida = self.vidaMax
 
+  
+
 #teste
 
     def mostrarPersonagem(self):
         print(f'nome: {self.nome}\n'
-              f'Vida: {self.vida}/{self.vidaMax}\n'
-              f'arma: {self.arma.nome}\n'
-              f'armadura: {self.armadura}\n'
-              f'resistencias: {self.resis}\n'
+              f'Vida: {self.vida}/{self.vidaMax}\n')
+        try:
+            print(f'arma: {self.arma.nome}\n')
+        except AttributeError:
+            print("arma: nenhuma")
+        try:
+            print(f'armadura: {self.armadura}\n')
+        except AttributeError:
+              print("armadura: nenhuma")
+        print(f'resistencias: {self.resis}\n'
               f'habilidades:')
         for habilidade in self.habilidades:
             print(f'>{habilidade}')
+        print("party:")
+        for membro in self.party:
+            print(f'>{membro.nome}')
         print('inventario:')
         for item in self.inventario:
             print(f'>{item.nome}')
+
+    def mostrarAliado(self,aliadoPos):
+        aliado = self.party[aliadoPos]
+
+        print(f'nome: {aliado.nome}\n'
+              f'Vida: {aliado.vida}/{aliado.vidaMax}\n')
+        try:
+            print(f'arma: {aliado.arma.nome}\n')
+        except AttributeError:
+            print("arma: nenhuma")
+        try:
+            print(f'armadura: {aliado.armadura}\n')
+        except AttributeError:
+              print("armadura: nenhuma")
+        print(f'resistencias: {aliado.resis}\n'
+              f'habilidades:')
+        for habilidade in aliado.habilidades:
+            print(f'>{habilidade}')
+        
 
 #vida
 
@@ -111,6 +148,21 @@ class Heroi(personagemBase):
             return self.resis[tipo] 
         
         return self.resis[tipo] + self.armadura.res[tipo]
+    
+#combate
+
+
+
+    def adicionarParty(self,ali):
+        
+        membro = aliado(ali,self)
+
+        if isinstance(membro,aliado):
+            
+            self.party.append(membro)
+
+            print(f'{membro.nome} se juntou a você')
+
 #inventario
 
     def adiquirirItem(self, cat, id):
@@ -120,7 +172,7 @@ class Heroi(personagemBase):
                     if id == novoItem["id"]:
                         addItem = itemUsavel(novoItem["nome"],novoItem["desc"],novoItem["cat"],novoItem["usavel"],novoItem["tipo"],novoItem["tipoDano"],novoItem["add"],novoItem["alvo"], novoItem["valor"],novoItem["valorAdd"] )
                         self.inventario.append(addItem)
-                        return
+                        return addItem
                 print("nenhum item valido com essa combinação de categoria e id")
                 print("itens validos:")
                 for item in listaItens:
@@ -129,9 +181,9 @@ class Heroi(personagemBase):
             case 1:
                 for novaArma in listaArmas:
                     if id == novaArma["id"]:
-                        addArma = itemArma(novaArma["nome"],novaArma["desc"],novaArma["cat"],novaArma["dano"],novaArma["hit"],novaArma["tipo"])
+                        addArma = itemArma(novaArma["nome"],novaArma["desc"],novaArma["cat"],novaArma["dano"],novaArma["hit"],novaArma["tipoDano"],novaArma["tipoArma"])
                         self.inventario.append(addArma)
-                        return
+                        return addArma
                 print("nenhum item valido com essa combinação de categoria e id")
                 print("itens validos:")
                 for arma in listaArmas:
@@ -140,9 +192,9 @@ class Heroi(personagemBase):
             case 2:
                 for novaArmadura in listaArmaduras:
                     if id == novaArmadura["id"]:
-                        addArmadura = itemArmadura(novaArmadura["nome"],novaArmadura["desc"],novaArmadura["cat"], novaArmadura["res"])
+                        addArmadura = itemArmadura(novaArmadura["nome"],novaArmadura["desc"],novaArmadura["cat"], novaArmadura["res"],novaArmadura["tipo"])
                         self.inventario.append(addArmadura)
-                        return
+                        return addArmadura
                 print("nenhum item valido com essa combinação de categoria e id")
                 print("itens validos:")
                 for armadura in listaArmaduras:
@@ -206,9 +258,34 @@ class Heroi(personagemBase):
 
                                 match i:
                                     case 1:
-                                        print(f'{item.nome} usado')
-                                        item.usarItem(self)
-                                        self.inventario.pop(itemPos -1)
+                                        while True:
+                                            try:
+                                                print(f"em quem?\n1-{self.nome}")
+                                                for i,membro in enumerate(self.party):
+                                                    print(f"{i+2}-{membro.nome}")
+                                                
+                                                quem = int(input(">"))
+
+                                            except ValueError:
+                                                print('Isso não é uma opção')
+                                                print()
+                                            else:
+                                                if 1 <= quem <= 1 + len(self.party):
+                                                    break
+                                                else:
+                                                    print('Isso não é uma opção')
+                                                    print()
+
+                                        if quem == 1:
+                                            print(f'{item.nome} usado')
+                                            item.usarItem(self)
+                                            self.inventario.pop(itemPos -1)
+
+                                        if quem > 1:
+                                            quem = self.party[quem -2]
+                                            print(f'{quem.nome} usou {item.nome}')
+                                            item.usarItem(quem)
+                                            self.inventario.pop(itemPos -1)
                                     case 2:
                                         print(f'{item.nome} descartado')
                                         self.inventario.pop(itemPos - 1)
@@ -240,7 +317,7 @@ class Heroi(personagemBase):
 
 
                         case 1:
-                            if item == self.arma:
+                            if item == self.arma or any(membro.arma == item for membro in self.party):
                                 while True:
                                     try:
                                         i = int(input("1-desiquipar\n"
@@ -259,8 +336,15 @@ class Heroi(personagemBase):
 
                                 match i:
                                     case 1:
-                                        print(f'{item.nome} desiquipado')
-                                        self.arma = None
+                                        if item == self.arma:
+                                            print(f'{item.nome} desiquipado')
+                                            self.arma = None
+                                        else: 
+                                            for membro in self.party:
+                                                if item == membro.arma:
+                                                    print(f'{membro.nome} desequipou {item.nome}')
+                                                    membro.arma = None
+                                                    break
                                     case 2:
                                         break
 
@@ -284,15 +368,42 @@ class Heroi(personagemBase):
 
                                 match i:
                                     case 1:
-                                        print(f'{item.nome} equipado')
-                                        self.arma = item
+                                        while True:
+                                            try:
+                                                    validos = [m for m in self.party if any(armaE == item.tipoArma for armaE in m.armasEquipaveis)]
+                                                    print(len(validos))
+                                                    print(f"em quem?\n1-{self.nome}")
+                                                    for i,membro in enumerate(validos):
+                                                        print(f"{i+2}-{membro.nome}")
+                                                    
+                                                    quem = int(input(">"))
+
+                                            except ValueError:
+                                                print('Isso não é uma opção')
+                                                print()
+                                            else:
+                                                if 1 <= quem <= 1 + len(validos):
+                                                    break
+                                                else:
+                                                    print('Isso não é uma opção')
+                                                    print()
+
+                                        if quem == 1: 
+                                            print(f'{item.nome} equipado')
+                                            self.arma = item
+
+                                        elif quem > 1:
+                                            quem = validos[quem -2]
+                                            print(f'{quem.nome} equipou {item.nome}')
+                                            quem.arma = item
+ 
                                     case 2:
                                         print(f'{item.nome} descartado')
                                         self.inventario.pop(itemPos - 1)
                                     case 3:
                                         break
                         case 2:
-                            if item == self.armadura:
+                            if item == self.armadura or any(membro.armadura == item for membro in self.party):
                                 while True:
                                     try:
                                         i = int(input("1-desiquipar\n"
@@ -311,8 +422,15 @@ class Heroi(personagemBase):
 
                                 match i:
                                     case 1:
-                                        print(f'{item.nome} desiquipado')
-                                        self.armadura = None
+                                        if item == self.armadura:
+                                            print(f'{item.nome} desiquipadou')
+                                            self.armadura = None
+                                        else: 
+                                            for membro in self.party:
+                                                if item == membro.armadura:
+                                                    print(f'{membro.nome} desequipou {item.nome}')
+                                                    membro.armadura = None
+                                                    break
                                     case 2:
                                         break
 
@@ -336,8 +454,34 @@ class Heroi(personagemBase):
 
                                 match i:
                                     case 1:
-                                        print(f'{item.nome} equipado')
-                                        self.armadura = item
+                                        while True:
+                                            try:
+                                                    validos = [m for m in self.party if any(armadE == item.tipo for armadE in m.armadurasEquipaveis)]
+                                                    print(len(validos))
+                                                    print(f"em quem?\n1-{self.nome}")
+                                                    for i,membro in enumerate(validos):
+                                                        print(f"{i+2}-{membro.nome}")
+                                                    
+                                                    quem = int(input(">"))
+
+                                            except ValueError:
+                                                print('Isso não é uma opção')
+                                                print()
+                                            else:
+                                                if 1 <= quem <= 1 + len(validos):
+                                                    break
+                                                else:
+                                                    print('Isso não é uma opção')
+                                                    print()
+
+                                        if quem == 1: 
+                                            print(f'{item.nome} equipado')
+                                            self.armadura = item
+
+                                        elif quem > 1:
+                                            quem = validos[quem -2]
+                                            print(f'{quem.nome} equipou {item.nome}')
+                                            quem.armadura = item
                                     case 2:
                                         print(f'{item.nome} descartado')
                                         self.inventario.pop(itemPos - 1)
@@ -345,8 +489,47 @@ class Heroi(personagemBase):
                                         break
 
 class aliado(personagemBase):
-    a= 1
+    def __init__(self,id:int,heroi):
+        #adicionar ia dps se eu quiser
+        for i, ali in enumerate(listaAliados):
+            if ali["id"] == id:
+                self.nome = ali["nome"] 
+                self.vida = self.vidaMax = ali["vida"]
+                self.resis = ali["resis"]
+                self.forca = ali["forca"]
+                self.agili = ali["agili"]
+                self.sabed = ali["sabed"]
+                self.habilidades = []
+                for hab in ali['habilidades']:
+                    self.habilidades.append(listaHabilidades[hab])
+                self.armasEquipaveis = ali["armasEquipaveis"]
+                self.armadurasEquipaveis = ali["armadurasEquipaveis"]
 
+                if ali['armaBase']:
+                    self.arma = heroi.adiquirirItem(1,ali["armaBase"])
+                else:
+                    self.arma = itemArma("","",1,0,100,0,None)
+
+                if ali['armaduraBase']:
+                    self.armadura = heroi.adiquirirItem(2,ali["armaduraBase"])
+                else:
+                    self.armadura = None
+
+
+                self.heroi = heroi
+                self.vivo = True
+
+    def levarDanoRes(self, quant,tipo):
+        self.levarDano(quant - self.calcularRes(tipo))
+        if not self.vivo:
+            print(f'{self.nome} foi morto')
+
+    def calcularRes(self, tipo):
+        if tipo == 8:
+            return 0
+        return self.resis[tipo]
+    
+    
 class inimigo(personagemBase):
 
     def __init__(self,id:int):
@@ -359,7 +542,9 @@ class inimigo(personagemBase):
                 self.forca = ini["forca"]
                 self.agili = ini["agili"]
                 self.sabed = ini["sabed"]
-                self.habilidades = ini["habilidades"]
+                self.habilidades = []
+                for hab in ini['habilidades']:
+                    self.habilidades.append(ListaHabMonstros[hab])
                 self.drops = ini["drops"]
                 self.ia = ini["ia"] 
                 self.vivo = True
@@ -367,7 +552,7 @@ class inimigo(personagemBase):
         
     
     def levarDanoRes(self, quant,tipo):
-        self.levarDano(quant - self.calcularRes[tipo])
+        self.levarDano(quant - self.calcularRes(tipo))
         if not self.vivo:
             print(f'{self.nome} foi morto')
 

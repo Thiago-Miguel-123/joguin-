@@ -106,14 +106,33 @@ listaItens = [
 # 6 - frio
 # 7 - morte
 # 8 - omnipotente
+#tipos de arma 
+# 0 - lamina
+# 1 - pesada
+# 2 - haste
+# 3 - cajado 
+# 4 - distancia
+#especial
+#n = nenhuma
 listaArmas = [
+    {
+        'id': -1,
+        'cat': 1,
+        'nome': "",
+        'dano': 0,
+        'hit': 100,
+        'tipoDano': 0,
+        'tipoArma': 0,
+        'desc': ""
+    },
     {
         'id': 0,
         'cat': 1,
         'nome': "espada quebrada",
         'dano': 1,
         'hit': 65,
-        'tipo': 1,
+        'tipoDano': 1,
+        'tipoArma': 0,
         'desc': "uma espada em pedaços, somente melhor doque nada"
     },
     {
@@ -122,7 +141,8 @@ listaArmas = [
         'nome': "espada curta",
         'dano': 3,
         'hit': 85,
-        'tipo': 1,
+        'tipoDano': 1,
+        'tipoArma': 0,
         'desc': "uma curta lamina de qualidade media, uma arma confiavel"
     },
     {
@@ -131,10 +151,39 @@ listaArmas = [
         'nome': "marreta",
         'dano': 6,
         'hit': 60,
-        'tipo': 0,
+        'tipoDano': 0,
+        'tipoArma': 1,
         'desc': "arma lenta e incontrolável, mas com uma força tremenda."
-    }
+    },
+    {
+        'id': 3,
+        'cat': 1,
+        'nome': "lança antiga",
+        'dano': 5,
+        'hit': 95,
+        'tipoDano': 2,
+        'tipoArma': 2,
+        'desc': "uma velha lança, confiavel apesar de ter perdido seu fio"
+    },
+    {
+        'id': 4,
+        'cat': 1,
+        'nome': "mão morta",
+        'dano': 2,
+        'hit': 85,
+        'tipoDano': 7,
+        'tipoArma': 3,
+        'desc': "mão decepada de um ser sobrenatural, emana morte"
+    }       
 ]
+
+#tipos de armadura
+# 0 = pano
+# 1 = couro
+# 2 = malha
+# 3 = placa
+# 4 = completa
+
 
 listaArmaduras = [
     {
@@ -142,6 +191,7 @@ listaArmaduras = [
         'cat': 2,
         'nome': "camisa",
         'res': [0,0,0,0,0,0,1,0],
+        'tipo': 0,
         'desc': "roupa simples de pano mediocre"
     },
     {
@@ -149,8 +199,33 @@ listaArmaduras = [
         'cat': 2,
         'nome': "armadura enferujada",
         'res': [1,3,1,-2,-5,0,-2,0],
+        'tipo': 3,
         'desc': "uma armadura chegando a seu limite,"
-    }
+    },
+    {
+        'id': 2,
+        'cat': 2,
+        'nome': "traje de medico",
+        'res': [1,1,1,-2,0,10,2,5],
+        'tipo': 1,
+        'desc': "trage de couro, abafado e apertado, possui uma mascara similar a face de um passaro"
+    },
+    {
+        'id': 3,
+        'cat': 2,
+        'nome': "trapo amaldiçoado",
+        'res': [0,-2,-2,-1,2,0,-5,15],
+        'tipo': 0,
+        'desc': "mal pode ser considerado uma roupa, forças sobrenaturais os habitam"
+    }, 
+    {
+        'id': 4,
+        'cat': 2,
+        'nome': "armadura decorativa",
+        'res': [1,1,1,-3,-5,0,-1,0],
+        'tipo': 4,
+        'desc': "muito bonita mas não util"
+    }   
 ]
 
 # classes para itens
@@ -228,15 +303,17 @@ class itemUsavel(Item):
 
 class itemArma(Item):
 
-    def __init__(self, nome, desc, cat,dano:int,hit:int,tipo:int):
+    def __init__(self, nome, desc, cat,dano:int,hit:int,tipoDano:int,tipoArma:int):
         super().__init__(nome, desc, cat)
         self.dano = dano
         self.hit = hit
-        self.tipo = tipo
+        self.tipoDano = tipoDano
+        self.tipoArma = tipoArma
 
 class itemArmadura(Item):
 
-    def __init__(self, nome, desc, cat,res:list):
+    def __init__(self, nome, desc, cat,res:list,tipo:int):
         super().__init__(nome, desc, cat)
         self.res = res
+        self.tipo = tipo
 

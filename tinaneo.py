@@ -73,20 +73,22 @@ while True:
                                     "3- manejar inventario\n"
                                     "4- levar dano\n"
                                     "5- simular luta\n"
-                                    "6- sair\n>"
+                                    "6- adicionar aliado\n"
+                                    "7- ver aliado\n"
+                                    "8- sair\n>"
                                     ))
             except ValueError:
                 print('Isso não é uma opção')
                 print()
             else:
-                if 1 <= opcao <= 6:
+                if 1 <= opcao <= 7:
                     break
                 else:
                     print('Isso não é uma opção')
                     print()
         match opcao:
             case 1:
-                luta.escolherTurno(personagem)
+                personagem.mostrarPersonagem()
                 print()
             case 2:
                 while True:
@@ -132,7 +134,7 @@ while True:
                             print('escolhe um dano de verdade seu trouxa')
                             print()
 
-                if personagem.levarDanoHeroi(dano,danoTipo):
+                if personagem.levarDanoRes(dano,danoTipo):
                     pass
                 else: 
                     break
@@ -146,9 +148,39 @@ while True:
                     inimigos.append(newIni)
                     numero -= 1
 
-                luta.batalha(personagem,[],inimigos)
+                luta.batalha(personagem,personagem.party,inimigos)
             
             case 6:
+                novoParty = int(input("coloque o id do aliado:\n>"))
+
+                personagem.adicionarParty(novoParty)
+
+                print(personagem.party)
+
+            case 7:
+                if not personagem.party:
+                    print("party vazia")
+                    continue
+                while True:
+                    try:
+                        print('Qual:')
+                        for i,membro in enumerate(personagem.party):
+                            print(f"{i+1}-{membro.nome}")
+
+                        quem = int(input(">"))
+                    except ValueError:
+                        print('smt')
+                        print()
+                    else:
+                        if 1 <= quem <= len(personagem.party):
+                            break
+                        else:
+                            print('Isso não é uma opção seu boboca')
+                            print()
+
+                personagem.mostrarAliado(quem -1)
+            
+            case 8:
                 print("tchau tchau")
                 break
         

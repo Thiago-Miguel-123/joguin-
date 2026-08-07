@@ -4,12 +4,39 @@ from personagens import inimigo
 from personagens import aliado
 
 def batalha(heroi, aliados:list, inimigos:list):
-    while inimigos:
-        todos = [heroi] + aliados + inimigos
+    derrota = False
+    todos = [heroi] + aliados + inimigos
+    while verificarInimigos(inimigos):
+        if not heroi.vivo:
+            print("derrota")
+            derrota = True
+            break
+        
         iniciativa = rolarIniciativa(todos)
 
-        print(iniciativa)
-        break 
+        for i, membro in enumerate(iniciativa):
+            print(f"turno de {membro[0].nome}")
+            input()
+            escolherTurno(membro[0],todos)
+
+        fimTurno(todos)
+    
+    if derrota:
+        pass
+    else:
+        for eni in inimigos:
+            for item in eni.drops:
+
+                chance = random.randint(1,100)
+
+                if chance <= item['chance']:
+                    print("item adquirido")
+                    heroi.adiquirirItem(item['cat'],item['id'])
+
+    print("fim do combate")
+    input()
+    #DAR O loot dos inimigos pro jogador
+
 
 def rolarIniciativa(todos:list):
     ordem = []
@@ -25,6 +52,7 @@ def turnoInimigo(perso,todos):
     match perso.ia:
         case 0:
             #ataca alvo aleatorio
+            #consertar parece que não esta aleatorio
             acao = perso.habilidades[random.randint(0, len(perso.habilidades) -1)]
 
             if acao['alvo'] == 1:
@@ -32,30 +60,95 @@ def turnoInimigo(perso,todos):
                 alvos = [a for a in todos if isAliado(a) and a.vivo]
 
                 alvo = random.randint(0, len(alvos) -1)
-
-                danificar(perso.nome,acao['nome'], alvos[alvo],acao['valor'],acao['tipoDano'], False )
-                match acao['alvo']:
+                attr = adicionarAtributo(perso,acao)
+                danificar(perso.nome,acao['nome'], alvos[alvo],acao['valor'] + attr,acao['tipoDano'], False )
+                match acao['add']:
                     case None:
                         pass
                     case 1:
-                        danificar(perso.nome,acao['nome'],alvos[alvo],acao['valor'],acao['tipoDano'], True)
+                        danificar(perso.nome,acao['nome'],alvos[alvo],acao['addValor'],acao['addTipoDano'], True)
                     #colocar os outros tipos dps: cura, cond e especial
         case 1:
             #ataca alvo que vai ficar com a menor vida 
 
             alvos = [a for a in todos if isAliado(a) and a.vivo]
 
-            for i,alvo in enumerate(alvos):#descobrir que combinação de habilidade e alvo deixa um inimigo com menor vida
-                
+            alvo = 0 
+            acao = 0 
+
+            for iAl,al in enumerate(alvos):#descobrir que combinação de habilidade e alvo deixa um inimigo com menor vida
+                for iAc,ac in enumerate(perso.habilidades):
+                    if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) <= alvos[alvo].vida - (perso.habilidades[acao]['valor'] - alvos[alvo].calcularRes(perso.habilidades[acao]['tipoDano'])):
+                        if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) == alvos[alvo].vida - (perso.habilidades[acao]['valor'] - alvos[alvo].calcularRes(perso.habilidades[acao]['tipoDano'])):
+                            if random.randint(0,1) > 0:
+                                alvo = iAl
+                                acao = iAc
+                        else:
+                            alvo = iAl
+                            acao = iAc
+
+            acao = perso.habilidades[acao]
+            attr = adicionarAtributo(perso,acao)
+            danificar(perso.nome,acao['nome'], alvos[alvo],acao['valor'] + attr,acao['tipoDano'], False )
+            match acao['add']:
+                    case None:
+                        pass
+                    case 1:
+                        danificar(perso.nome,acao['nome'],alvos[alvo],acao['addValor'],acao['addTipoDano'], True)
 
 
-def turnoJogador():
-    pass
+
+
+def turnoJogador(perso, todos):
+    print(f"turno de {perso.nome}")
+
+    while True:
+        try:
+            acao = int(input("Oque fazer:\n"
+                                   "1- atacar\n"
+                                   "2- habilidades\n"
+                                   "3- itens\n>"))
+        except ValueError:
+            print('Isso não é uma opção')
+            print()
+        else:
+            if 1 <= acao <= 3:
+                break
+            else:
+                print('Isso não é uma opção')
+                print()
+        
+    match acao:
+        case 1:
+            alvos = [a for a in todos if isInimigo(a) and a.vivo]
+
+            for i, alvo in enumerate(alvos):
+                print(f'{i + 1}- {alvo.nome}')
+
+            while True:
+                try:
+                    alvo = int(input("atacar qual inimigo\n>"))
+                except ValueError:
+                    print('Isso não é uma opção')
+                    print()
+                else:
+                    if 1 <= alvo <= len(alvos):
+                        break
+                    else:
+                        print('Isso não é uma opção')
+                        print()
+
+            dano = perso.calcularDano()
+            danificar(perso,"ataque", alvos[alvo -1], dano, perso.arma.tipoDano, False)
+        case 2:
+            print("pulando .. nao implementado")
+        case 3: 
+            print("pulando .. nao implementado")
 
 def escolherTurno(perso,todos):
-    if isinstance(perso, Heroi):
-        turnoJogador()
-    elif isinstance(perso, inimigo):
+    if isAliado(perso):
+        turnoJogador(perso,todos)
+    elif isInimigo(perso):
         turnoInimigo(perso,todos)
 
 def isInimigo(ini):
@@ -63,6 +156,37 @@ def isInimigo(ini):
 
 def isAliado(ali):
     return isinstance(ali, Heroi) or isinstance(ali,aliado)
+
+def fimTurno(todos):
+    for i,t in enumerate(todos):
+        if not t.vivo:
+            todos.pop(i)
+
+def verificarInimigos(ini):
+    return any(i.vivo for i in ini)
+
+def adicionarAtributo(perso,acao):
+    attr = acao['attr'][0]
+
+    possiveis = [0,perso.forca,perso.agili,perso.sabed,perso.vida,perso.vidaMax]#talvez coloque resis dps
+
+    attr = possiveis[attr]
+    
+    match acao['attr'][1]:
+        case 0:
+            attr = 0
+        case 1:
+            pass
+        case 2: 
+            attr = abs(attr)
+        case 3:
+            attr = attr * 2
+        case 4:
+            attr = attr / 2
+        case 5:
+            attr = acao['quant'] * attr - acao['quant']
+
+    return attr
 
 def danificar(perso,acao,alvo, quant, tipo, isadd:bool):
     if not isadd:
