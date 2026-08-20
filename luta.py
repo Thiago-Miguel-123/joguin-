@@ -143,7 +143,7 @@ def turnoJogador(perso, todos):
         case 2:
             print("pulando .. nao implementado")
         case 3: 
-            print("pulando .. nao implementado")
+            inventario(perso,todos)
 
 def escolherTurno(perso,todos):
     if isAliado(perso):
@@ -237,6 +237,11 @@ def inventario(perso, todos):
         itemPos -= 1
         item = inventarioValido[itemPos]
 
+        for i, itemrp in enumerate(todos[0].inventario):
+            if item == itemrp:
+                itemPos = i
+                break
+
         match item.alvo:
             case 1:
                 print("em quem")
@@ -249,7 +254,7 @@ def inventario(perso, todos):
             case 2:
                 print("em quem")
                 alvos = [a for a in todos if isInimigo(a)]
-                for i, a in alvos:
+                for i, a in enumerate(alvos):
                     print(f'{i + 1} - {a.nome}')
                 dif = 1
 
@@ -279,11 +284,11 @@ def inventario(perso, todos):
         elif alvo == 1 and dif == 2:
             alvo = perso
             item.usarItem(alvo)
-            todos[0].invetario[item].pop
+            todos[0].inventario.pop(itemPos)
         else:
             alvo = alvos[alvo - dif]
             item.usarItem(alvo)
-            todos[0].invetario[item].pop
+            todos[0].inventario.pop(itemPos)
 
 
 

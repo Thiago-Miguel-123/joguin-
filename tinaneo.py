@@ -7,8 +7,6 @@ import luta
 
 
 
-
-
 #def procurarItem(item):
  #   for i in range(0, len(inventario)):
   #      if inventario[i] == item:

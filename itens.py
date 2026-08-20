@@ -22,7 +22,7 @@ listaItens = [
         'cat': 0,
         'nome': "frasco de acido menor",
         'usavel': True,
-        'tipo': 2,
+        'tipo': 0,
         'tipoDano': 8,
         'add': None,
         'alvo': 2,
