@@ -15,9 +15,10 @@ def batalha(heroi, aliados:list, inimigos:list):
         iniciativa = rolarIniciativa(todos)
 
         for i, membro in enumerate(iniciativa):
-            print(f"turno de {membro[0].nome}")
-            input()
-            escolherTurno(membro[0],todos)
+            if membro[0].vivo == True: 
+                print(f"turno de {membro[0].nome}")
+                input()
+                escolherTurno(membro[0],todos)
 
         fimTurno(todos)
     
