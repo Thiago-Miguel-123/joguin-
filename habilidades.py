@@ -1,4 +1,4 @@
-# para alvo, 0= voce, 1 = inimigo
+# para alvo, 0= voce, 1 = inimigo,2 = aliado, 3 = todos aliados, 4 = todos inimigos, 5 = todos, 6 = aliado aleatorio, 7 = inimigo aleatorio
 # para tipo, 0= dano, 1= cura, 3= condição, 4= casos especiais
 # add sao efeitos adicionais, se None nao tem se um numero igual a tipo
 #attr = atributo usado na habilidade, 0 = nenhum, 1 = força, 2= agili, 3= sabed, 4 = vida,5 = vidaMax todos acima são as resis em ordem
@@ -9,19 +9,62 @@ listaHabilidades = [
         'nome': 'Golpe poderoso',
         'alvo': 1,
         'tipo': 0,
+        'tipoDano': "Arma",
+        'attr': [1,5],
+        'valor': 10,
         'add': None,
-        'custo': 2,
+        'cooldown': 2,
         'desc': "um podereso golpe, causando dano adicional"
     },
     {
         'id': 1,
         'nome': 'Regis',
+        'alvo': 2,
+        'tipo': 1,
+        'tipoDano': None,
+        'attr': [3,1],
+        'valor': 25,
+        'add': None,
+        'cooldown': 3,
+        'desc': "uma arte magica esquecida, curando o corpo"
+    },
+    {
+        'id': 2,
+        'nome': 'Regiuno',
         'alvo': 0,
         'tipo': 1,
+        'tipoDano': None,
+        'attr': [3,1],
+        'valor': 50,
         'add': None,
-        'custo': 5,
-        'desc': "uma arte magica esquecida, curando o corpo"
+        'cooldown': 5,
+        'desc': "Uma arte ancia, remendando o seu corpo"
+    },
+    {
+        'id': 3,
+        'nome': 'Regiali',
+        'alvo': 3,
+        'tipo': 1,
+        'tipoDano': None,
+        'attr': [3,1],
+        'valor': 15,
+        'add': None,
+        'cooldown': 3,
+        'desc': "uma arte magica esquecida, uma leve e resfrescante brisa, reustarando o corpo de muitos "
+    },
+    {
+        'id': 4,
+        'nome': "Lamiali",
+        'alvo': 4,
+        'tipo': 0,
+        'tipoDano': 1,
+        'attr' : [0,0],
+        'valor' : 25,
+        "add": None,
+        "cooldown":3,
+        "desc":"Uma arte magica esquecida, uma chuva de espadas caindo sobre aqueles que se opõem a tu"
     }
+
 
 
 ]
