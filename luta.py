@@ -142,7 +142,7 @@ def turnoJogador(perso, todos):
             dano = perso.calcularDano()
             danificar(perso,"ataque", alvos[alvo -1], dano, perso.arma.tipoDano, False)
         case 2:
-            print("pulando .. nao implementado")
+            habilidades(perso,todos) 
         case 3: 
             inventario(perso,todos)
 
@@ -202,6 +202,40 @@ def aplicarCond():
 
 def acaoEspecial():
     pass
+
+def habilidades(perso, todos):
+    for i, habilidade in enumerate(perso.habilidades):
+        if i + 1 == len(perso.habilidades):
+            print(f'{i + 1}-{habilidade["nome"]}')
+        elif (i + 1) % 3 == 0:
+            print(f'{i + 1}-{habilidade["nome"]}')
+        else:
+            print(f'{i + 1}-{habilidade["nome"]}', end=" | ")
+
+    print("0 - cancelar")
+
+    while True:
+        try:
+            habPos = int(input("escolha uma habilidade: "))
+
+        except ValueError:
+            print('Isso não é uma opção')
+            print()
+        else:
+            if 0 <= habPos <= perso.habilidades.__len__():
+                break
+            else:
+                print('Isso não é uma opção')
+                print()
+
+
+    if habPos == 0:
+        pass
+        #voltar as outras opçoes de combate
+    else:
+        habPos -= 1
+        habilidade = perso.habilidades[habPos]
+        print(f"habilidade: {habilidade['nome']}")
 
 def inventario(perso, todos):
     inventarioValido = [i for i in todos[0].inventario if i.cat == 0 and hasattr(i,"alvo")]
