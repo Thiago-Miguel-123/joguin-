@@ -42,7 +42,7 @@ listaAliados = [
         "forca": 5,
         "agili": 2,
         "sabed": 2,
-        "habilidades": [], #id das habilidades
+        "habilidades": [0,1,2,3,4], #id das habilidades
         "armasEquipaveis": [None], #tipos de arma equipaveis
         "armadurasEquipaveis": [0],
         "armaBase": None,
@@ -56,7 +56,7 @@ listaAliados = [
         "forca": 3,
         "agili": 2,
         "sabed": 3,
-        "habilidades": [], #id das habilidades
+        "habilidades": [0,1,2,3,4], #id das habilidades
         "armasEquipaveis": [0,1,2,3,4,5], #tipos de arma equipaveis
         "armadurasEquipaveis": [0,1,2,3,4],
         "armaBase": 0,
@@ -70,7 +70,7 @@ listaAliados = [
         "forca": 8,
         "agili": 1,
         "sabed": 2,
-        "habilidades": [], #id das habilidades
+        "habilidades": [0,1,2,3,4], #id das habilidades
         "armasEquipaveis": [1], #tipos de arma equipaveis
         "armadurasEquipaveis": [0,1],
         "armaBase": 2,
@@ -84,7 +84,7 @@ listaAliados = [
         "forca": 2,
         "agili": 12,
         "sabed": 5,
-        "habilidades": [], #id das habilidades
+        "habilidades": [0,1,2,3,4], #id das habilidades
         "armasEquipaveis": [0,4], #tipos de arma equipaveis
         "armadurasEquipaveis": [1,2,3,4],
         "armaBase": 1,

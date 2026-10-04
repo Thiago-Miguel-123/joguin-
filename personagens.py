@@ -1,3 +1,5 @@
+import random
+
 from habilidades import listaHabilidades
 from habilidades import ListaHabMonstros
 from itens import listaItens
@@ -502,8 +504,12 @@ class aliado(personagemBase):
                 self.habilidades = []
                 for hab in ali['habilidades']:
                     self.habilidades.append(listaHabilidades[hab])
+                random.shuffle(self.habilidades)
+                del self.habilidades[3:5]
                 self.armasEquipaveis = ali["armasEquipaveis"]
                 self.armadurasEquipaveis = ali["armadurasEquipaveis"]
+
+                
 
                 if ali['armaBase']:
                     self.arma = heroi.adiquirirItem(1,ali["armaBase"])

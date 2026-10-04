@@ -1,16 +1,10 @@
-b = 'B'
+a = [1,2,3,4,5]
 
-def ab(ab):
-    a = "a"
-    print(f"{a}")
-    print(b)
-    abc(a)
+print(a)
 
-def abc(v):
-    print(a)
+del a[3:100]
 
-ab(b)    
-
+print(a)    
 
 
 
