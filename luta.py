@@ -239,27 +239,27 @@ def habilidades(perso, todos):
 
         match habilidade['alvo']:
             case 0:
-                alvos = perso
+                alvos = [perso]
             case 1:
                 alvos = [a for a in todos if isInimigo(a) and a.vivo]
                 
                 for i, alvo in enumerate(alvos):
                     print(f'{i + 1}- {alvo.nome}')
                 
-                    while True:
-                        try:
-                            alvo = int(input("atacar qual inimigo\n>"))
-                        except ValueError:
+                while True:
+                    try:
+                        alvo = int(input("atacar qual inimigo\n>"))
+                    except ValueError:
+                        print('Isso não é uma opção')
+                        print()
+                    else:
+                        if 1 <= alvo <= len(alvos):
+                            break
+                        else:
                             print('Isso não é uma opção')
                             print()
-                        else:
-                            if 1 <= alvo <= len(alvos):
-                                break
-                            else:
-                                print('Isso não é uma opção')
-                                print()
 
-                            alvos = alvos[alvo -1]
+                alvos = [alvos[alvo -1]]
 
             case 2:
                 alvos = [a for a in todos if isAliado(a) and a.vivo]
@@ -281,7 +281,7 @@ def habilidades(perso, todos):
                             print('Isso não é uma opção')
                             print()
 
-                    alvos = alvos[alvo - 1]
+                alvos = [alvos[alvo - 1]]
             case 3:
                 alvos = [a for a in todos if isAliado(a) and a.vivo]
             case 4:
@@ -291,11 +291,11 @@ def habilidades(perso, todos):
             case 6:
                 alvos = [a for a in todos if isAliado(a) and a.vivo]
 
-                alvos = alvos[random.randint(0, len(alvos) - 1)]
+                alvos = [alvos[random.randint(0, len(alvos) - 1)]]
             case 7:
                 alvos = [a for a in todos if isInimigo(a) and a.vivo]
 
-                alvos = alvos[random.randint(0, len(alvos) - 1)]
+                alvos = [alvos[random.randint(0, len(alvos) - 1)]]
 
         for a in alvos:
             print(f"alvo: {a.nome}")
