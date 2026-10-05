@@ -237,6 +237,73 @@ def habilidades(perso, todos):
         habilidade = perso.habilidades[habPos]
         print(f"habilidade: {habilidade['nome']}")
 
+        match habilidade['alvo']:
+            case 0:
+                alvos = perso
+            case 1:
+                alvos = [a for a in todos if isInimigo(a) and a.vivo]
+                
+                for i, alvo in enumerate(alvos):
+                    print(f'{i + 1}- {alvo.nome}')
+                
+                    while True:
+                        try:
+                            alvo = int(input("atacar qual inimigo\n>"))
+                        except ValueError:
+                            print('Isso não é uma opção')
+                            print()
+                        else:
+                            if 1 <= alvo <= len(alvos):
+                                break
+                            else:
+                                print('Isso não é uma opção')
+                                print()
+
+                            alvos = alvos[alvo -1]
+
+            case 2:
+                alvos = [a for a in todos if isAliado(a) and a.vivo]
+                while True:
+                    try:
+                        print("em quem?")
+                        for i,alvo in enumerate(alvos):
+                            print(f"{i+1}-{alvo.nome}")
+                                                                    
+                        alvo = int(input(">"))
+                    
+                    except ValueError:
+                        print('Isso não é uma opção')
+                        print()
+                    else:
+                        if 1 <= alvo <= len(alvos):
+                            break
+                        else:
+                            print('Isso não é uma opção')
+                            print()
+
+                    alvos = alvos[alvo - 1]
+            case 3:
+                alvos = [a for a in todos if isAliado(a) and a.vivo]
+            case 4:
+                alvos = [a for a in todos if isInimigo(a) and a.vivo]
+            case 5:
+                alvos = [a for a in todos if a.vivo]
+            case 6:
+                alvos = [a for a in todos if isAliado(a) and a.vivo]
+
+                alvos = alvos[random.randint(0, len(alvos) - 1)]
+            case 7:
+                alvos = [a for a in todos if isInimigo(a) and a.vivo]
+
+                alvos = alvos[random.randint(0, len(alvos) - 1)]
+
+        for a in alvos:
+            print(f"alvo: {a.nome}")
+
+
+                  
+
+
 def inventario(perso, todos):
     inventarioValido = [i for i in todos[0].inventario if i.cat == 0 and hasattr(i,"alvo")]
 
