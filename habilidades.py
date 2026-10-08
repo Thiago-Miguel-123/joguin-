@@ -9,7 +9,7 @@ listaHabilidades = [
         'nome': 'Golpe poderoso',
         'alvo': 1,
         'tipo': 0,
-        'tipoDano': "Arma",
+        'tipoDano': "arma",
         'attr': [1,5],
         'valor': 10,
         'add': None,

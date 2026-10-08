@@ -54,20 +54,20 @@ def turnoInimigo(perso,todos):
         case 0:
             #ataca alvo aleatorio
             #consertar parece que não esta aleatorio
-            acao = perso.habilidades[random.randint(0, len(perso.habilidades) -1)]
+            hab = perso.habilidades[random.randint(0, len(perso.habilidades) -1)]
 
-            if acao['alvo'] == 1:
+            if hab['alvo'] == 1:
 
                 alvos = [a for a in todos if isAliado(a) and a.vivo]
 
                 alvo = random.randint(0, len(alvos) -1)
-                attr = adicionarAtributo(perso,acao)
-                danificar(perso.nome,acao['nome'], alvos[alvo],acao['valor'] + attr,acao['tipoDano'], False )
-                match acao['add']:
+                attr = adicionarAtributo(perso,hab)
+                danificar(perso.nome,hab['nome'], alvos[alvo],hab['valor'] + attr,hab['tipoDano'], False )
+                match hab['add']:
                     case None:
                         pass
                     case 1:
-                        danificar(perso.nome,acao['nome'],alvos[alvo],acao['addValor'],acao['addTipoDano'], True)
+                        danificar(perso.nome,hab['nome'],alvos[alvo],hab['addValor'],hab['addTipoDano'], True)
                     #colocar os outros tipos dps: cura, cond e especial
         case 1:
             #ataca alvo que vai ficar com a menor vida 
@@ -75,27 +75,22 @@ def turnoInimigo(perso,todos):
             alvos = [a for a in todos if isAliado(a) and a.vivo]
 
             alvo = 0 
-            acao = 0 
+            hab = 0 
 
             for iAl,al in enumerate(alvos):#descobrir que combinação de habilidade e alvo deixa um inimigo com menor vida
                 for iAc,ac in enumerate(perso.habilidades):
-                    if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) <= alvos[alvo].vida - (perso.habilidades[acao]['valor'] - alvos[alvo].calcularRes(perso.habilidades[acao]['tipoDano'])):
-                        if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) == alvos[alvo].vida - (perso.habilidades[acao]['valor'] - alvos[alvo].calcularRes(perso.habilidades[acao]['tipoDano'])):
+                    if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) <= alvos[alvo].vida - (perso.habilidades[hab]['valor'] - alvos[alvo].calcularRes(perso.habilidades[hab]['tipoDano'])):
+                        if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) == alvos[alvo].vida - (perso.habilidades[hab]['valor'] - alvos[alvo].calcularRes(perso.habilidades[hab]['tipoDano'])):
                             if random.randint(0,1) > 0:
                                 alvo = iAl
-                                acao = iAc
+                                hab = iAc
                         else:
                             alvo = iAl
-                            acao = iAc
+                            hab = iAc
 
-            acao = perso.habilidades[acao]
-            attr = adicionarAtributo(perso,acao)
-            danificar(perso.nome,acao['nome'], alvos[alvo],acao['valor'] + attr,acao['tipoDano'], False )
-            match acao['add']:
-                    case None:
-                        pass
-                    case 1:
-                        danificar(perso.nome,acao['nome'],alvos[alvo],acao['addValor'],acao['addTipoDano'], True)
+            hab = perso.habilidades[hab]
+            valor = perso.calcularHabValor(hab['hab'])
+            usarHab(perso,hab,[alvos[alvo]],valor)
 
 
 
@@ -203,14 +198,46 @@ def aplicarCond():
 def acaoEspecial():
     pass
 
+def usarHab(perso,hab,alvos,valor):
+        match hab['tipo']:
+            case 0:
+                if hab['tipoDano'] == 'arma':
+                    tipo = perso.arma.tipoDano
+                else:
+                    tipo = hab['tipoDano']
+                for a in alvos:
+                    danificar(perso.nome,hab['nome'], a, valor, tipo, False)
+            case 1:
+                for a in alvos:
+                    curar(a,valor)
+            case 3:
+                pass
+            case 4:
+                pass
+
+        if hab['add']:
+
+            match hab['addTipo']:
+                case 0:
+                    for a in alvos:
+                        danificar(perso.nome,hab['nome'], a, valor, hab['tipoDano'], False)
+                case 1:
+                    for a in alvos:
+                        curar(a,valor)
+                case 3:
+                    pass
+                case 4:
+                    pass
+
+
 def habilidades(perso, todos):
-    for i, habilidade in enumerate(perso.habilidades):
+    for i, hab in enumerate(perso.habilidades):
         if i + 1 == len(perso.habilidades):
-            print(f'{i + 1}-{habilidade["nome"]}')
+            print(f'{i + 1}-{hab["nome"]}')
         elif (i + 1) % 3 == 0:
-            print(f'{i + 1}-{habilidade["nome"]}')
+            print(f'{i + 1}-{hab["nome"]}')
         else:
-            print(f'{i + 1}-{habilidade["nome"]}', end=" | ")
+            print(f'{i + 1}-{hab["nome"]}', end=" | ")
 
     print("0 - cancelar")
 
@@ -234,21 +261,25 @@ def habilidades(perso, todos):
         #voltar as outras opçoes de combate
     else:
         habPos -= 1
-        habilidade = perso.habilidades[habPos]
-        print(f"habilidade: {habilidade['nome']}")
+        hab = perso.habilidades[habPos]
+        print(f"habilidade: {hab['nome']}")
 
-        match habilidade['alvo']:
+        match hab['alvo']:
             case 0:
                 alvos = [perso]
             case 1:
                 alvos = [a for a in todos if isInimigo(a) and a.vivo]
+
+                if not alvos:
+                    print("invalido")
+                    return  
                 
                 for i, alvo in enumerate(alvos):
                     print(f'{i + 1}- {alvo.nome}')
                 
                 while True:
                     try:
-                        alvo = int(input("atacar qual inimigo\n>"))
+                        alvo = int(input("Em quem?\n>"))
                     except ValueError:
                         print('Isso não é uma opção')
                         print()
@@ -263,14 +294,17 @@ def habilidades(perso, todos):
 
             case 2:
                 alvos = [a for a in todos if isAliado(a) and a.vivo]
+
+                if not alvos:
+                    print("invalido")
+                    return
+
+                for i, alvo in enumerate(alvos):
+                    print(f'{i + 1}- {alvo.nome}')
+                
                 while True:
                     try:
-                        print("em quem?")
-                        for i,alvo in enumerate(alvos):
-                            print(f"{i+1}-{alvo.nome}")
-                                                                    
-                        alvo = int(input(">"))
-                    
+                        alvo = int(input("Em quem?\n>"))
                     except ValueError:
                         print('Isso não é uma opção')
                         print()
@@ -281,7 +315,7 @@ def habilidades(perso, todos):
                             print('Isso não é uma opção')
                             print()
 
-                alvos = [alvos[alvo - 1]]
+                alvos = [alvos[alvo -1]]
             case 3:
                 alvos = [a for a in todos if isAliado(a) and a.vivo]
             case 4:
@@ -297,8 +331,22 @@ def habilidades(perso, todos):
 
                 alvos = [alvos[random.randint(0, len(alvos) - 1)]]
 
+        if not alvos:
+            print("invalido")
+            return
+        
         for a in alvos:
             print(f"alvo: {a.nome}")
+
+        valor = perso.calcularHabValor(hab)
+
+        usarHab(perso,hab,alvos,valor)
+
+
+                
+
+             
+
 
 
                   
