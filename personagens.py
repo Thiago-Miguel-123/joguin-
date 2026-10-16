@@ -12,14 +12,14 @@ from listaPersonagens import listaInimigos
 from listaPersonagens import listaAliados
 
 class personagemBase:
-    nome = str
-    vidaMax = int
-    vida = int
-    resis = list
-    forca = int
-    agili = int
-    sabed = int
-    vivo = bool 
+    nome:str
+    vidaMax:int
+    vida:int
+    resis:list
+    forca:int
+    agili:int
+    sabed:int
+    vivo:bool
 
 
     def levarDano(self, quant):
