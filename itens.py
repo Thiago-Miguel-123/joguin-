@@ -246,7 +246,7 @@ class Item:
 
 
     def resetarId(self):
-        contId = 0
+        Item.contId = 0
 
 
 class itemUsavel(Item):
