@@ -241,8 +241,9 @@ class Item:
         self.nome = nome
         self.desc = desc
         self.cat = cat
-        self.id = self.contId
-        self.contId += 1
+        self.id = Item.contId
+        Item.contId += 1
+
 
     def resetarId(self):
         contId = 0
