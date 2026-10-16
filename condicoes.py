@@ -9,7 +9,7 @@
 #um atributo não pode ser reduzido ao um valor negativo
 # stack é quantas vezes um personagem pode sofrer de instancias da mesma condição simultaniamente,
 # ativa é quando o dano\cura é aplicado, 0 = uma vez por rodada no inicio do turno, 1= uma vez por rodada final do turno
-# 2= começo do turno, 3 = fim do turno 
+# 2= começo do turno, 3 = fim do turno, 5 = quando alvo leva dano uma vez por rodada, 6= quando leva dano
 # se o alvo tem resistencia ao tipo de dano da caondição as modicaçoes a atributos são reduzidos em uma porcentagem igual
 # esp são efeitos especiais e unicos, nao serao implementados agora mais futuramente serao efeitos como multiplos turnos, fazer todasa as habiladades afetarem alvos especificos e perder turno em certas condicoes*#
 
@@ -80,7 +80,7 @@ condicoes = [
         'nome':"ultimaki",
         'tipo': 0,
         'tipoDano': 5,
-        'valor': 80,
+        'valor': 100,
         'forca': ["*",5],
         'agili': ["*",2],
         'sabed': None,
@@ -89,5 +89,36 @@ condicoes = [
         'ativa': 1,
         'esp': None,
         'desc': "Toxina extremamente letal que força o corpo alem de seus limites"
-    }
+    },
+    {
+        'id': 5,
+        'nome': "regillar",
+        'tipo': 1,
+        'tipoDano': None,
+        'valor': 10,
+        'forca': None,
+        'agili': None,
+        'sabed': None,
+        'resis': [0, 0, 0, 0, 0, 0, 0, 0],
+        'stack': 3,
+        'ativa': 1,
+        'esp': None,
+        'desc': "restaura o corpo lentamente"
+    },
+    {
+        'id': 6,
+        'nome': "inflamavel",
+        'tipo': 3,
+        'tipoDano': None,
+        'valor': 10,
+        'forca': None,
+        'agili': None,
+        'sabed': None,
+        'resis': [0, 0, 0, -20, 0, 0, 0, 0],
+        'stack': 3,
+        'ativa': None,
+        'esp': None,#futuramente tambem ira colocar o alvo em chamas caso acertado por ataques de fogo
+        'desc': "restaura o corpo lentamente"
+    },
+
 ]
