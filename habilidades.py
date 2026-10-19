@@ -2,7 +2,8 @@
 # para tipo, 0= dano, 1= cura, 3= condição, 4= casos especiais
 # add sao efeitos adicionais, se None nao tem se um numero igual a tipo
 #attr = atributo usado na habilidade, 0 = nenhum, 1 = força, 2= agili, 3= sabed, 4 = vida,5 = vidaMax todos acima são as resis em ordem
-#attr segundo numero é como é usado, 1 = +, 2 = -, 3 = +*2, 4 = +/2, 5 = * 
+#attr segundo numero é como é usado, 1 = +, 2 = -, 3 = +*2, 4 = +/2, 5 = *
+#em habilidades de condicao o valor é uma lista com o id da cond,stacks e cond
 listaHabilidades = [
     {
         'id': 0,

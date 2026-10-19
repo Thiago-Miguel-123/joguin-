@@ -19,6 +19,7 @@ class personagemBase:
     forca:int
     agili:int
     sabed:int
+    condicoes:list
     vivo:bool
 
 
@@ -77,6 +78,10 @@ class personagemBase:
             case 5:
                 return valor * attr
 
+    def aplicarCond(self,info):
+        pass
+
+
 
 
 
@@ -97,7 +102,8 @@ class Heroi(personagemBase):
         self.inventario = []
         self.arma = self.adiquirirItem(1,0)
         self.armadura = self.adiquirirItem(2,0)   
-        self.party = []     
+        self.party = []
+        self.condicoes = []
         
 
         match presente:
@@ -556,6 +562,7 @@ class aliado(personagemBase):
 
                 self.heroi = heroi
                 self.vivo = True
+                self.condicoes = []
 
     def levarDanoRes(self, quant,tipo):
         self.levarDano(quant - self.calcularRes(tipo))
@@ -586,6 +593,7 @@ class inimigo(personagemBase):
                 self.drops = ini["drops"]
                 self.ia = ini["ia"] 
                 self.vivo = True
+                self.condicoes = []
             
         
     
