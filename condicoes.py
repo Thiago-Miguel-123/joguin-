@@ -11,6 +11,7 @@
 # ativa é quando o dano\cura é aplicado, 0 = uma vez por rodada no inicio do turno, 1= uma vez por rodada final do turno
 # 2= começo do turno, 3 = fim do turno, 5 = quando alvo leva dano uma vez por rodada, 6= quando leva dano
 # se o alvo tem resistencia ao tipo de dano da caondição as modicaçoes a atributos são reduzidos em uma porcentagem igual
+#cat(categoria) atualmente nao usado sera usado para separar que condiçooes interagem com certas habilidades(ex: uma habilidade de curar veneno so funciona em condiçoes da categoria veneno)
 # esp são efeitos especiais e unicos, nao serao implementados agora mais futuramente serao efeitos como multiplos turnos, fazer todasa as habiladades afetarem alvos especificos e perder turno em certas condicoes*#
 
 
@@ -27,6 +28,7 @@ condicoes = [
         'resis': [0,0,0,0,0,0,0,0],
         'stack': 10,
         'ativa': 1,
+        'cat': 0,
         'esp': None,
         'desc': "veneno basico"
     },
@@ -42,6 +44,7 @@ condicoes = [
         'resis': [5,5,5, 0, 0, 0, 0, 0],
         'stack': 5,
         'ativa': 1,
+        'cat': 0,
         'esp': None,
         'desc': "veneno que reduz a força"
     },
@@ -57,6 +60,7 @@ condicoes = [
         'resis': [-5, -5, -5, -5, -5, -5, -5, -5],
         'stack': 1,
         'ativa': 1,
+        'cat': 0,
         'esp': None,
         'desc': "veneno que faz alguem perder metade de sua capacidade"
     },
@@ -72,6 +76,7 @@ condicoes = [
         'resis': [0, 0, 0, 0, 0, 0, 0, 0],
         'stack': 20,
         'ativa': 2,
+        'cat': 0,
         'esp': None,
         'desc': "veneno que ativa com picos de adrenalina"
     },
@@ -87,6 +92,7 @@ condicoes = [
         'resis': [25, 25, 25, 0, 0, 0, 0, 0],
         'stack': 1,
         'ativa': 1,
+        'cat': 0,
         'esp': None,
         'desc': "Toxina extremamente letal que força o corpo alem de seus limites"
     },
@@ -102,6 +108,7 @@ condicoes = [
         'resis': [0, 0, 0, 0, 0, 0, 0, 0],
         'stack': 3,
         'ativa': 1,
+        'cat': 0,
         'esp': None,
         'desc': "restaura o corpo lentamente"
     },
@@ -117,8 +124,31 @@ condicoes = [
         'resis': [0, 0, 0, -20, 0, 0, 0, 0],
         'stack': 3,
         'ativa': None,
+        'cat': 0,
         'esp': None,#futuramente tambem ira colocar o alvo em chamas caso acertado por ataques de fogo
-        'desc': "restaura o corpo lentamente"
+        'desc': "queime"
     },
 
 ]
+
+class categoria:
+    def __init__(self,cond,stacks:int,duracao:int):
+        self.id = cond['id']
+        self.nome = cond['nome']
+        self.tipo = cond['tipo']
+        self.tipoDano = cond['tipoDano']
+        self.valor = cond['valor']
+        self.forca = cond['forca']
+        self.agili = cond['agili']
+        self.sabed = cond['sabed']
+        self.resis = cond['resis']
+        self.maxStack = cond['stack']
+        self.ativa = cond['ativa']
+        self.cat = cond['cat']
+        self.esp = cond['esp']
+        self.desc = cond['desc']
+        self.stacks = stacks
+        self.duracao = duracao
+
+    def handleAtivacao(self): #toda vez que o ativa fazer a condição a fazer seu efeito a duração é diminuida
+        self.duracao-=1
