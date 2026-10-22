@@ -10,6 +10,7 @@ from itens import itemArma
 from itens import itemArmadura
 from listaPersonagens import listaInimigos
 from listaPersonagens import listaAliados
+from condicoes import cond
 
 class personagemBase:
     nome:str
@@ -78,8 +79,24 @@ class personagemBase:
             case 5:
                 return valor * attr
 
-    def aplicarCond(self,info):
-        pass
+    def aplicarCond(self,info:list):
+        newCond = cond(info[0],info[1],info[2])
+        stacks=0
+        if self.condicoes:
+            for c in self.condicoes:
+                if c.id == newCond.id:
+                    stacks+=c.id
+
+        stacks = stacks + newCond.stacks
+        newCond.recalcStacks(stacks)
+
+        if newCond.stacks >= 1:
+            self.condicoes.append(newCond)
+
+
+        #ver se a quantidades de stacks supera o maximo, se sim diminuir 
+        #instanciar e adicionar ao array de condiçoes 
+
 
 
 

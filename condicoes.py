@@ -131,24 +131,33 @@ condicoes = [
 
 ]
 
-class categoria:
-    def __init__(self,cond,stacks:int,duracao:int):
-        self.id = cond['id']
-        self.nome = cond['nome']
-        self.tipo = cond['tipo']
-        self.tipoDano = cond['tipoDano']
-        self.valor = cond['valor']
-        self.forca = cond['forca']
-        self.agili = cond['agili']
-        self.sabed = cond['sabed']
-        self.resis = cond['resis']
-        self.maxStack = cond['stack']
-        self.ativa = cond['ativa']
-        self.cat = cond['cat']
-        self.esp = cond['esp']
-        self.desc = cond['desc']
+class cond:
+    def __init__(self,condId,stacks:int,duracao:int):
+        for cond in condicoes:
+            if cond['id'] == condId:
+                self.id = cond['id']
+                self.nome = cond['nome']
+                self.tipo = cond['tipo']
+                self.tipoDano = cond['tipoDano']
+                self.valor = cond['valor']
+                self.forca = cond['forca']
+                self.agili = cond['agili']
+                self.sabed = cond['sabed']
+                self.resis = cond['resis']
+                self.maxStack = cond['stack']
+                self.ativa = cond['ativa']
+                self.cat = cond['cat']
+                self.esp = cond['esp']
+                self.desc = cond['desc']
         self.stacks = stacks
         self.duracao = duracao
+
+    def recalcStacks(self,stacks):
+        if stacks >= self.maxStack:
+                stacks = stacks - self.maxStack
+                self.stacks-= stacks
+                
+        
 
     def handleAtivacao(self): #toda vez que o ativa fazer a condição a fazer seu efeito a duração é diminuida
         self.duracao-=1
