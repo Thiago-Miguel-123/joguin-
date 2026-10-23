@@ -192,13 +192,13 @@ def danificar(perso,acao,alvo, quant, tipo, isadd:bool):
 def curar(alvo, quant):
     alvo.curar(quant)
 
-def aplicarCond():
-    pass
+def aplicarCond(perso,cond):
+    
 
 def acaoEspecial():
     pass
 
-def usarHab(perso,hab,alvos,valor):
+def usarHab(perso,hab,alvos,valor,valorAdd):
         match hab['tipo']:
             case 0:
                 if hab['tipoDano'] == 'arma':
@@ -210,9 +210,10 @@ def usarHab(perso,hab,alvos,valor):
             case 1:
                 for a in alvos:
                     curar(a,valor)
+            case 2:
+                for a in alvos:
+                    aplicarCond(a,valor)
             case 3:
-                pass
-            case 4:
                 pass
 
         if hab['add']:
@@ -224,9 +225,10 @@ def usarHab(perso,hab,alvos,valor):
                 case 1:
                     for a in alvos:
                         curar(a,valor)
+                case 2:
+                    for a in alvos:
+                        aplicarCond(a,valorAdd)
                 case 3:
-                    pass
-                case 4:
                     pass
 
 
@@ -338,19 +340,15 @@ def habilidades(perso, todos):
         for a in alvos:
             print(f"alvo: {a.nome}")
 
-        valor = perso.calcularHabValor(hab)
+        valor = perso.calcularHabValor(hab["tipo"],hab["attr"][0],hab["attr"][1],hab["valor"])
 
-        usarHab(perso,hab,alvos,valor)
+        if hab["add"]:
+            valorAdd = perso.calcularHabValor(hab["addTipo"],hab["attr"][0],hab["attr"][1],hab["addValor"])
+        else:
+            valorAdd= None
 
-
-                
-
-             
-
-
-
-                  
-
+        usarHab(perso,hab,alvos,valor,valorAdd)
+              
 
 def inventario(perso, todos):
     inventarioValido = [i for i in todos[0].inventario if i.cat == 0 and hasattr(i,"alvo")]

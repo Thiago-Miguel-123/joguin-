@@ -13,9 +13,20 @@ import random
 # if a:
 #     print("tem algo")
 
-array = [1,2,3]
+# array = [1,2,3]
 
-for a in array:
-    print(a)
+# for a in array:
+#     print(a)
 
-print(f"ultimo elemento:{a}") 
+# print(f"ultimo elemento:{a}") 
+
+array1 = []
+array2:list
+
+for i in array1:
+    print(1)
+
+for i in array2:
+    print(2)
+
+print("dwsafdwsqag")

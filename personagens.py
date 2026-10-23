@@ -52,32 +52,30 @@ class personagemBase:
     def usarHabLuta(self, hab,alvos):
         pass
 
-    def calcularHabValor(self,hab):
-        attr = hab['attr'][0]
-        calc = hab['attr'][1]
-        valor = hab['valor']
+    def calcularHabValor(self,tipo,attr1,attr2,valor):
 
+        if not attr or tipo == 2:
+            return valor
         attrOps = ['', self.forca, self.agili, self.sabed, self.vida, self.vidaMax]
         attrOps.extend(self.resis)
 
         attr = attrOps[attr]
 
-        if not attr:
-            return valor
 
-        match calc:
+
+        match attr2:
             case 0:
                 return valor
             case 1:
-                return valor + attr
+                return valor + attr1
             case 2:
-                return valor - attr
+                return valor - attr1
             case 3:
-                return valor + (attr * 2)
+                return valor + (attr1 * 2)
             case 4:
-                return valor + (attr / 2)
+                return valor + (attr1 / 2)
             case 5:
-                return valor * attr
+                return valor * attr1
 
     def aplicarCond(self,info:list):
         newCond = cond(info[0],info[1],info[2])
@@ -86,7 +84,7 @@ class personagemBase:
             for c in self.condicoes:
                 if c.id == newCond.id:
                     stacks+=c.id
-
+  
         stacks = stacks + newCond.stacks
         newCond.recalcStacks(stacks)
 
