@@ -1,0 +1,13 @@
+nomeclatura das magias 
+
+regis/regi = cura
+lami = corte
+ki = veneno
+
+prefixos
+
+a = pequeno,curto
+
+sufixos:
+ali = muitos
+uno = voce,proprio,unico
