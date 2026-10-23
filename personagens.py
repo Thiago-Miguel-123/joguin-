@@ -90,6 +90,8 @@ class personagemBase:
 
         if newCond.stacks >= 1:
             self.condicoes.append(newCond)
+            print(f"{self.nome} inflingido com {newCond.nome}")
+            print(f"stacks:{newCond.stacks} duração:{newCond.duracao}")
 
 
         #ver se a quantidades de stacks supera o maximo, se sim diminuir 

@@ -192,8 +192,8 @@ def danificar(perso,acao,alvo, quant, tipo, isadd:bool):
 def curar(alvo, quant):
     alvo.curar(quant)
 
-def aplicarCond(perso,cond):
-    
+def aplicarCond(alvo,cond):
+    alvo.aplicarCond(cond)
 
 def acaoEspecial():
     pass
