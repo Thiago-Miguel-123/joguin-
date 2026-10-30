@@ -54,14 +54,10 @@ class personagemBase:
 
     def calcularHabValor(self,tipo,attr1,attr2,valor):
 
-        if not attr or tipo == 2:
+        if not attr1 or tipo == 2:
             return valor
         attrOps = ['', self.forca, self.agili, self.sabed, self.vida, self.vidaMax]
         attrOps.extend(self.resis)
-
-        attr = attrOps[attr]
-
-
 
         match attr2:
             case 0:
@@ -141,6 +137,8 @@ class Heroi(personagemBase):
                 self.habilidades.append(listaHabilidades[0])
             case 2:
                 self.habilidades.append(listaHabilidades[1])
+        self.habilidades.append(listaHabilidades[5])
+        self.habilidades.append(listaHabilidades[6])
 
         self.vida = self.vidaMax
 

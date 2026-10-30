@@ -61,8 +61,8 @@ def turnoInimigo(perso,todos):
                 alvos = [a for a in todos if isAliado(a) and a.vivo]
 
                 alvo = random.randint(0, len(alvos) -1)
-                attr = adicionarAtributo(perso,hab)
-                danificar(perso.nome,hab['nome'], alvos[alvo],hab['valor'] + attr,hab['tipoDano'], False )
+                valor = perso.calcularHabValor
+                danificar(perso.nome,hab['nome'], alvos[alvo],hab['valor'],hab['tipoDano'], False )
                 match hab['add']:
                     case None:
                         pass
@@ -74,23 +74,22 @@ def turnoInimigo(perso,todos):
 
             alvos = [a for a in todos if isAliado(a) and a.vivo]
 
-            alvo = 0 
-            hab = 0 
+            alvo = 0
+            hab = perso.habilidades[0]
 
             for iAl,al in enumerate(alvos):#descobrir que combinação de habilidade e alvo deixa um inimigo com menor vida
                 for iAc,ac in enumerate(perso.habilidades):
-                    if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) <= alvos[alvo].vida - (perso.habilidades[hab]['valor'] - alvos[alvo].calcularRes(perso.habilidades[hab]['tipoDano'])):
-                        if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) == alvos[alvo].vida - (perso.habilidades[hab]['valor'] - alvos[alvo].calcularRes(perso.habilidades[hab]['tipoDano'])):
+                    if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) <= alvos[alvo].vida - (hab['valor'] - alvos[alvo].calcularRes(hab['tipoDano'])):
+                        if al.vida - (ac['valor'] -al.calcularRes(ac['tipoDano'])) == alvos[alvo].vida - (hab['valor'] - alvos[alvo].calcularRes(hab['tipoDano'])):
                             if random.randint(0,1) > 0:
                                 alvo = iAl
-                                hab = iAc
+                                hab = ac
                         else:
                             alvo = iAl
-                            hab = iAc
+                            hab = ac
 
-            hab = perso.habilidades[hab]
-            valor = perso.calcularHabValor(hab['hab'])
-            usarHab(perso,hab,[alvos[alvo]],valor)
+            valor = perso.calcularHabValor(hab['tipo'],hab['attr'][0],hab['attr'][1],hab['valor'])
+            usarHab(perso,hab,[alvos[alvo]],valor,0)
 
 
 
@@ -218,7 +217,7 @@ def usarHab(perso,hab,alvos,valor,valorAdd):
 
         if hab['add']:
 
-            match hab['addTipo']:
+            match hab['add']:
                 case 0:
                     for a in alvos:
                         danificar(perso.nome,hab['nome'], a, valor, hab['tipoDano'], False)
@@ -343,7 +342,7 @@ def habilidades(perso, todos):
         valor = perso.calcularHabValor(hab["tipo"],hab["attr"][0],hab["attr"][1],hab["valor"])
 
         if hab["add"]:
-            valorAdd = perso.calcularHabValor(hab["addTipo"],hab["attr"][0],hab["attr"][1],hab["addValor"])
+            valorAdd = perso.calcularHabValor(hab["add"],hab["attr"][0],hab["attr"][1],hab["addValor"])
         else:
             valorAdd= None
 
