@@ -14,11 +14,11 @@ def batalha(heroi, aliados:list, inimigos:list):
         
         iniciativa = rolarIniciativa(todos)
 
-        for i, membro in enumerate(iniciativa):
+        for membro in iniciativa:
             if membro[0].vivo == True: 
-                print(f"turno de {membro[0].nome}")
-                input()
+                handleIniTurno(membro[0])
                 escolherTurno(membro[0],todos)
+                handleFimTurno(membro[0])
 
         fimTurno(todos)
     
@@ -347,6 +347,15 @@ def habilidades(perso, todos):
             valorAdd= None
 
         usarHab(perso,hab,alvos,valor,valorAdd)
+
+def handleIniTurno(perso):
+    print(f"turno de {perso.nome} iniciado")
+    input()
+
+def handleFimTurno(perso):
+    print(f"turno de {perso.nome} finalizado")
+    input()
+
               
 
 def inventario(perso, todos):
