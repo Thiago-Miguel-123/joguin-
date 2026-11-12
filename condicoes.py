@@ -8,8 +8,8 @@
 # podendo ser um None, caso esse atributo não seja afetado, ou uma lista onde o [0] é o simbolo do operador e [1] sendo o valor
 #um atributo não pode ser reduzido ao um valor negativo
 # stack é quantas vezes um personagem pode sofrer de instancias da mesma condição simultaniamente,
-# ativa é quando o dano\cura é aplicado, 0 = uma vez por rodada no inicio do turno, 1= uma vez por rodada final do turno
-# 2= começo do turno, 3 = fim do turno, 5 = quando alvo leva dano uma vez por rodada, 6= quando leva dano
+# ativa é quando o dano\cura é aplicado, 0 = uma vez por rodada final do turno
+# 1 = fim do turno, 2 = quando alvo leva dano uma vez por rodada, 3 = quando leva dano
 # se o alvo tem resistencia ao tipo de dano da caondição as modicaçoes a atributos são reduzidos em uma porcentagem igual
 #cat(categoria) atualmente nao usado sera usado para separar que condiçooes interagem com certas habilidades(ex: uma habilidade de curar veneno so funciona em condiçoes da categoria veneno)
 # esp são efeitos especiais e unicos, nao serao implementados agora mais futuramente serao efeitos como multiplos turnos, fazer todasa as habiladades afetarem alvos especificos e perder turno em certas condicoes*#
@@ -27,7 +27,7 @@ condicoes = [
         'sabed': None,
         'resis': [0,0,0,0,0,0,0,0],
         'stack': 10,
-        'ativa': 1,
+        'ativa': 0,
         'cat': 0,
         'esp': None,
         'desc': "veneno basico"
@@ -43,7 +43,7 @@ condicoes = [
         'sabed': None,
         'resis': [5,5,5, 0, 0, 0, 0, 0],
         'stack': 5,
-        'ativa': 1,
+        'ativa': 0,
         'cat': 0,
         'esp': None,
         'desc': "veneno que reduz a força"
@@ -59,7 +59,7 @@ condicoes = [
         'sabed': ["/",2],
         'resis': [-5, -5, -5, -5, -5, -5, -5, -5],
         'stack': 1,
-        'ativa': 1,
+        'ativa': 0,
         'cat': 0,
         'esp': None,
         'desc': "veneno que faz alguem perder metade de sua capacidade"
@@ -75,7 +75,7 @@ condicoes = [
         'sabed': None,
         'resis': [0, 0, 0, 0, 0, 0, 0, 0],
         'stack': 20,
-        'ativa': 2,
+        'ativa': 1,
         'cat': 0,
         'esp': None,
         'desc': "veneno que ativa com picos de adrenalina"
@@ -91,7 +91,7 @@ condicoes = [
         'sabed': None,
         'resis': [25, 25, 25, 0, 0, 0, 0, 0],
         'stack': 1,
-        'ativa': 1,
+        'ativa': 0,
         'cat': 0,
         'esp': None,
         'desc': "Toxina extremamente letal que força o corpo alem de seus limites"
@@ -107,7 +107,7 @@ condicoes = [
         'sabed': None,
         'resis': [0, 0, 0, 0, 0, 0, 0, 0],
         'stack': 3,
-        'ativa': 1,
+        'ativa': 0,
         'cat': 0,
         'esp': None,
         'desc': "restaura o corpo lentamente"
@@ -122,7 +122,7 @@ condicoes = [
         'agili': None,
         'sabed': None,
         'resis': [0, 0, 0, -20, 0, 0, 0, 0],
-        'stack': 3,
+        'stack': 2,
         'ativa': None,
         'cat': 0,
         'esp': None,#futuramente tambem ira colocar o alvo em chamas caso acertado por ataques de fogo
