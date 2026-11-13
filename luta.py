@@ -197,6 +197,24 @@ def aplicarCond(alvo,cond):
 def acaoEspecial():
     pass
 
+def calcCond(perso,conds:list): #tipo 0 = fim de turno, 1 = levar dano
+    for c in conds:
+        dano == 0
+        for c2 in conds:
+            if c != c2 and c.id == c2.id and c2.ativaTurno:
+                dano += c2.valor
+                c2.handleAtivacao()
+        if c.ativaTurno:
+            dano += c.valor
+            c.handleAtivacao()
+        danificar(perso,"a",perso,dano,c.tipoDano,False)
+        print(f"{perso.nome} foi aflingido por {c.nome}")
+
+    for c in conds:
+        if c.ativa == 1 or c.ativa == 3:
+            c.reativar
+                
+
 def usarHab(perso,hab,alvos,valor,valorAdd):
         match hab['tipo']:
             case 0:
@@ -354,6 +372,13 @@ def handleIniTurno(perso):
 
 def handleFimTurno(perso):
     print(f"turno de {perso.nome} finalizado")
+
+    # lidar com condicoes 
+
+    condFTurno = [c for c in perso.condicoes if c == 0 or c == 1]
+
+    calcCond(perso,condFTurno)
+
     input()
 
               

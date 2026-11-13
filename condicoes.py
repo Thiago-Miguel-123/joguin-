@@ -149,8 +149,10 @@ class cond:
                 self.cat = cond['cat']
                 self.esp = cond['esp']
                 self.desc = cond['desc']
-        self.stacks = stacks
-        self.duracao = duracao
+                self.stacks = stacks
+                self.duracao = duracao
+                self.ativaTurno = True #feita para conds que ativam uma ves por turno
+
 
     def recalcStacks(self,stacks):
         if stacks >= self.maxStack:
@@ -161,3 +163,7 @@ class cond:
 
     def handleAtivacao(self): #toda vez que o ativa fazer a condição a fazer seu efeito a duração é diminuida
         self.duracao-=1
+        self.ativaTurno == False
+
+    def reativar(self):
+         self.ativaTurno == True
