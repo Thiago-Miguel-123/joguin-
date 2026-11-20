@@ -89,12 +89,11 @@ class personagemBase:
             print(f"{self.nome} inflingido com {newCond.nome}")
             print(f"stacks:{newCond.stacks} duração:{newCond.duracao}")
 
+    def handleCondR(self):
+        self.condicoes = [c for c in self.condicoes if c.duracao >= 1]
 
-        #ver se a quantidades de stacks supera o maximo, se sim diminuir 
-        #instanciar e adicionar ao array de condiçoes 
-
-
-
+        for c in self.condicoes:
+            c.reativar()
 
 
 

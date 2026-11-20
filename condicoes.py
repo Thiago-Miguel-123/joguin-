@@ -153,6 +153,10 @@ class cond:
                 self.duracao = duracao
                 self.ativaTurno = True #feita para conds que ativam uma ves por turno
 
+    def __del__(self):
+         print("teste condiçao deletada")
+         input()
+
 
     def recalcStacks(self,stacks):
         if stacks >= self.maxStack:
@@ -164,6 +168,8 @@ class cond:
     def handleAtivacao(self): #toda vez que o ativa fazer a condição a fazer seu efeito a duração é diminuida
         self.duracao-=1
         self.ativaTurno == False
+        print(f"{self.nome} ativado")
 
     def reativar(self):
-         self.ativaTurno == True
+         if self.duracao >= 1:
+            self.ativaTurno == True

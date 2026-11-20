@@ -157,6 +157,10 @@ def fimTurno(todos):
         if not t.vivo:
             todos.pop(i)
 
+    for t in todos:
+        t.handleCondR()
+                
+
 def verificarInimigos(ini):
     return any(i.vivo for i in ini)
 
@@ -197,17 +201,19 @@ def aplicarCond(alvo,cond):
 def acaoEspecial():
     pass
 
-def calcCond(perso,conds:list): #tipo 0 = fim de turno, 1 = levar dano
+def calcCond(perso,conds:list):
     for c in conds:
-        dano == 0
+        valor = 0
+        if c.ativaTurno == False:
+            continue
+        valor += c.valor
+        c.handleAtivacao()
         for c2 in conds:
-            if c != c2 and c.id == c2.id and c2.ativaTurno:
-                dano += c2.valor
+            if c != c2 and c.id == c2.id and c2.ativaTurno == True:
+                valor += c2.valor
                 c2.handleAtivacao()
-        if c.ativaTurno:
-            dano += c.valor
-            c.handleAtivacao()
-        danificar(perso,"a",perso,dano,c.tipoDano,False)
+        
+        danificar(perso,"a",perso,valor,c.tipoDano,False)
         print(f"{perso.nome} foi aflingido por {c.nome}")
 
     for c in conds:
@@ -371,14 +377,13 @@ def handleIniTurno(perso):
     input()
 
 def handleFimTurno(perso):
+      # lidar com condicoes 
+
+    condFTurno = [c for c in perso.condicoes if c.ativa == 0 or c.ativa == 1]
+    if condFTurno:
+        calcCond(perso,condFTurno)
+
     print(f"turno de {perso.nome} finalizado")
-
-    # lidar com condicoes 
-
-    condFTurno = [c for c in perso.condicoes if c == 0 or c == 1]
-
-    calcCond(perso,condFTurno)
-
     input()
 
               

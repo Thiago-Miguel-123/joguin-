@@ -35,6 +35,9 @@ class teste:
         self.valor = valor
         self.listaT = []
 
+    def __del__(self):
+        print("deletado")
+
 
 
 
@@ -49,23 +52,47 @@ class teste:
 # print(testando.valor)
 
 
-lista = []
+# lista = []
 
-def aplicarCond(valor):
+# def aplicarCond(valor):
 
-        newTeste = teste(valor)
-        lista.append(newTeste)
+#         newTeste = teste(valor)
+#         lista.append(newTeste)
 
-aplicarCond(1)
-aplicarCond(3)
-aplicarCond(1)
+# aplicarCond(1)
+# aplicarCond(3)
+# aplicarCond(1)
 
 
-for l in lista:
-    print(l.valor)
-    if l.valor == 1:
-         lista.remove(l)
-         print("renovido") 
+# for l in lista:
+#     print(l.valor)
+#     if l.valor == 1:
+#          lista.remove(l)
+#          print("renAovido") 
 
-for l in lista:
-    print(l.valor)
+# for l in lista:
+#     print(l.valor)
+
+# a = teste(5)
+# b = teste(3)
+
+
+# c = a 
+
+# del a
+
+a = 1
+b = 2
+c = 3
+f=2
+
+lista = [a,c,c,b,c,c,f,c]
+print(lista)
+
+for i in lista:
+    if i == 2:
+        lista.remove(i)
+    if i == c:
+        print("bloas")    
+
+print(lista)
